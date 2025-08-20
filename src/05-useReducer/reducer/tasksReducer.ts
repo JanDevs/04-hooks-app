@@ -44,7 +44,21 @@ export const getTasksInitialState = () => {
         }
     }
 
-    return JSON.parse( localStorageState );
+    //Validar mediante Zod
+
+    const resultado = TaskStateSchema.safeParse(JSON.parse( localStorageState ));
+
+    if( resultado.error ){
+        console.log( resultado.error );
+        return{
+            todos: [],
+            completed: 0,
+            pending: 0,
+            length: 0,
+        }
+    }
+
+    return resultado.data
     
 }
 
