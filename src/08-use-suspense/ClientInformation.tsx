@@ -1,23 +1,29 @@
-import { useEffect } from "react"
-import { getUserAction } from "./api/get-user.action"
+import { use, useEffect, type Usable } from "react"
+import { getUserAction, type User } from "./api/get-user.action"
 
+interface Props {
+    getUser: Usable<User>
 
-const ClientInformation = ({ id } : { id: number }) => {
+}
+
+const ClientInformation = ({ getUser } : Props) => {
   
-    useEffect(() => {
-        getUserAction( id ).then( console.log );
-    }, [ id ])
+    const user = use( getUser ); 
+
+    // useEffect(() => {
+    //     getUserAction( id ).then( console.log );
+    // }, [ id ])
 
     return (
     <div className='bg-gradient flex flex-col gap-4'>
       <h2 className='text-4xl font-thin text-white'>
-        Jan - #123
+        { user.name } - #{ user.id }
       </h2>
       <p className='text-white text-2xl'>
-        Ottawa, Canada
+        { user.location }
       </p>
       <p className='text-white text-xl'>
-        Rol del usuario
+        { user.role }
       </p>
     </div>
   )
